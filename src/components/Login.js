@@ -31,12 +31,8 @@ export default function Login() {
         return;
       }
 
-      // 1. Salva o token no contexto/localStorage
       await login(data.token); 
-
-      // 2. REDIRECIONA MANUALMENTE (AQUI ESTÁ O SEGREDO)
-      router.push('/dashboard'); 
-      
+      router.push('/dashboard/home'); 
     } catch (err) {
       setError('Falha na comunicação com o servidor');
     }
