@@ -1,4 +1,3 @@
-// myproject/src/lib/db.js
 import mysql from 'mysql2/promise';
 
 const pool = mysql.createPool({
@@ -8,7 +7,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   port: parseInt(process.env.DB_PORT),
   ssl: {
-    rejectUnauthorized: false // Obrigatório para o Aiven na Vercel
+    rejectUnauthorized: false // Fundamental para o Aiven aceitar a Vercel
   }
 });
 
