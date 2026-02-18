@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/router'; // ADICIONE ESTA LINHA
 import styles from '../styles/Settings.module.css';
 
 export default function Login() {
@@ -7,6 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
+  const router = useRouter(); // ADICIONE ESTA LINHA
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +31,12 @@ export default function Login() {
         return;
       }
 
-      login(data.token);
+      // 1. Salva o token no contexto/localStorage
+      await login(data.token); 
+
+      // 2. REDIRECIONA MANUALMENTE (AQUI ESTÁ O SEGREDO)
+      router.push('/dashboard'); 
+      
     } catch (err) {
       setError('Falha na comunicação com o servidor');
     }
