@@ -1,0 +1,28 @@
+.timerWrapper {
+  text-align: center;
+  padding: 40px;
+  background: var(--bg-s);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  margin-top: 20px;
+}
+
+.timerNumbers {
+  font-size: 4rem;
+  font-weight: 900;
+  font-family: 'Courier New', monospace;
+  color: var(--text-p);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.btnAction {
+  background: var(--text-p);
+  color: var(--bg-p);
+  border: 2px solid var(--border);
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+}

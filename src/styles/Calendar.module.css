@@ -1,0 +1,27 @@
+.pageContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.addBtn {
+  background: var(--accent);
+  color: #c59d5f;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.divider { border: 0; border-top: 1px solid var(--border-color); margin: 30px 0; }
+.sectionTitle { color: var(--accent); margin-bottom: 20px; }
+.completedTitle { color: var(--success); margin-top: 40px; }
+.completedList { opacity: 0.6; }

@@ -1,0 +1,43 @@
+.timerWrapper {
+  text-align: center;
+  padding: 40px;
+  background: var(--bg-s);
+  border: 4px solid var(--border); /* Borda mais grossa */
+  border-radius: 20px;
+  margin-top: 20px;
+  box-shadow: 8px 8px 0px var(--border); /* Sombra bruta */
+}
+
+.timerNumbers {
+  font-size: 5rem; /* Aumentei um pouco */
+  font-weight: 900;
+  font-family: 'Courier New', monospace;
+  color: var(--color-activity); /* Destaque no dourado */
+  display: block;
+  margin-bottom: 25px;
+  text-shadow: 2px 2px 0px var(--border);
+}
+
+.btnAction {
+  all: unset;
+  background: var(--color-activity) !important; /* Dourado */
+  color: var(--bg-p) !important;
+  border: 3px solid var(--border) !important;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: 0.2s;
+  box-shadow: 4px 4px 0px var(--border);
+}
+
+.btnAction:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--border);
+}
+
+.btnAction:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px var(--border);
+}

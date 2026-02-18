@@ -1,0 +1,38 @@
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--text-p);
+}
+
+.hero p {
+  color: var(--text-s);
+  font-size: 1.2rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.statCard {
+  background: var(--bg-s);
+  border: 2px solid var(--border);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 8px 8px 0px var(--border);
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--text-p);
+  display: block;
+}

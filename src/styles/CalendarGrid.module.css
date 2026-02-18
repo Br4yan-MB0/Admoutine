@@ -1,0 +1,78 @@
+.container {
+  background: var(--bg-s);
+  padding: 24px;
+  border-radius: 20px;
+  border: 2px solid var(--border);
+  box-shadow: 8px 8px 0px var(--border);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.monthTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  color: var(--text-p);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.weekDay {
+  text-align: center;
+  font-weight: 900;
+  font-size: 0.75rem;
+  color: var(--text-s);
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+
+.dayBox {
+  aspect-ratio: 1/1;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 6px;
+  position: relative;
+  transition: var(--transition);
+}
+
+.dayBox:hover {
+  transform: scale(1.05);
+  background: var(--bg-p);
+}
+
+.today {
+  border-color: var(--text-p);
+  background: var(--bg-s);
+}
+
+.dayNumber {
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.dotContainer {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.dotWorkout { background: var(--color-activity); }
+.dotSocial { background: var(--color-social); }

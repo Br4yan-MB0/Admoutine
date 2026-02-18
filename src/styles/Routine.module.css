@@ -1,0 +1,200 @@
+/* --- CONTAINER PRINCIPAL --- */
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+/* --- CARDS (FORMULÁRIO E LISTA) --- */
+.formCard {
+  background: #1e1b1a;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid #332f2e;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.listContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* --- TÍTULOS E HEADERS --- */
+.cardTitle {
+  color: #c59d5f; /* Dourado */
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #332f2e;
+  padding-bottom: 15px;
+}
+
+/* --- CAMPOS DE FORMULÁRIO --- */
+.fieldGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  color: #a0522d; /* Terracota */
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.inputField {
+  background: #2a2625;
+  border: 1px solid #3d3836;
+  padding: 14px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.inputField:focus {
+  border-color: #c59d5f;
+}
+
+/* --- ITENS DA LISTA (ROUTINE ITEM) --- */
+.routineCard {
+  background: #1e1b1a;
+  border: 1px solid #332f2e;
+  border-left: 4px solid #c59d5f; /* Destaque dourado lateral */
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  transition: transform 0.2s;
+}
+
+.routineCard:hover {
+  transform: translateX(5px);
+  background: #252120;
+}
+
+.routineInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.routineInfo h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.routineInfo span {
+  color: #a0522d;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* --- BOTÕES UNIFICADOS --- */
+
+/* Botão Principal (Dourado) */
+.btnSave, .addBtnSmall {
+  background: #c59d5f;
+  color: #1a1a1a;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnSave:hover, .addBtnSmall:hover {
+  background: #d4af37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(197, 157, 95, 0.3);
+}
+
+/* Botão de Cancelar/Voltar (Outline) */
+.btnCancel {
+  background: transparent;
+  color: #888;
+  padding: 12px;
+  border: 1px solid #332f2e;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s;
+  width: 100%;
+}
+
+.btnCancel:hover {
+  color: #fff;
+  background: #2a2625;
+  border-color: #444;
+}
+
+/* Botões de Ícone (Edit/Delete) */
+.iconBtn {
+  background: transparent;
+  border: 1px solid #332f2e;
+  color: #c59d5f;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBtn:hover {
+  background: #2a2625;
+  border-color: #c59d5f;
+  transform: scale(1.1);
+}
+
+/* Botão de Deletar específico */
+.deleteBtn:hover {
+  background: #441a1a;
+  color: #ff4d4d;
+  border-color: #ff4d4d;
+}
+
+/* --- LAYOUTS DE AÇÃO --- */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.cardActions {
+  display: flex;
+  gap: 12px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+}

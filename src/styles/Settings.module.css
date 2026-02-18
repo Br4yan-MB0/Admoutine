@@ -1,0 +1,77 @@
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 30px;
+  color: var(--text-p);
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 25px;
+  border: 2px solid var(--border);
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 6px 6px 0px var(--border);
+}
+
+.cardTitle {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--text-p);
+}
+
+.infoGroup {
+  margin-top: 15px;
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-s);
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-p);
+}
+
+.btnPrimary {
+  background: var(--text-p);
+  color: var(--bg-p);
+  border: 2px solid var(--border);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.btnOutline {
+  background: transparent;
+  border: 2px solid var(--text-p);
+  color: var(--text-p);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btnLogout {
+  background: #ff4d4d; /* Cor de erro/alerta padrão */
+  color: white;
+  border: 2px solid var(--border);
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 20px;
+}

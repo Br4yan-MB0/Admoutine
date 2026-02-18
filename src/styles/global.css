@@ -1,0 +1,42 @@
+:root {
+  /* DARK MODE: Chocolate & Sand Gold */
+  --bg-p: #1b1412;         /* Chocolate Profundo */
+  --bg-s: #2a1f1d;         /* Chocolate Médio */
+  --card-bg: #231a18;      /* Card Chocolate */
+  --text-p: #c59d5f;       /* Sand Gold */
+  --text-s: #8d6e3f;       /* Sand Gold mais escuro */
+  --border: #000000;       /* Preto para contornos */
+  --shadow: rgba(0, 0, 0, 0.8);
+  
+  /* Lembretes Dark */
+  --color-activity: #004d40; /* Dark Deep Jade */
+  --color-social: #0d47a1;   /* Dark Sapphire */
+  
+  --radius: 12px;
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.light {
+  /* LIGHT MODE: Cream & Wine */
+  --bg-p: #f5f5dc;         /* Cream */
+  --bg-s: #ede8d5;         /* Cream levemente mais escuro */
+  --card-bg: #ffffff;      /* Branco puro para contraste */
+  --text-p: #4a0e0e;       /* Dark Wine */
+  --text-s: #722f37;       /* Wine mais suave */
+  --border: #001f3f;       /* Dark Navy Blue */
+  --shadow: rgba(0, 31, 63, 0.15);
+  
+  /* Lembretes Light */
+  --color-activity: #e2725b; /* Terracota */
+  --color-social: #333333;   /* Chumbo */
+}
+
+body {
+  background-color: var(--bg-p);
+  color: var(--text-p);
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  transition: var(--transition);
+}
+
+* { box-sizing: border-box; }
