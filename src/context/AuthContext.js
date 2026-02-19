@@ -1,12 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,28 +14,24 @@ export function AuthProvider({ children }) {
       try {
         setUser(JSON.parse(savedUser));
       } catch (err) {
-        console.error("Erro no parse do user:", err);
-        logout();
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
       }
     }
-    setLoading(false);
+    setLoading(false); // Agora o app sabe que terminou de checar o login
   }, []);
 
-  // Função login corrigida: Apenas salva dados
   const login = (token, userData) => {
-    if (!token || !userData) return;
-    
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-    // Não fazemos router.push aqui para não bugar o redirecionamento do componente
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-    router.push('/login');
+    window.location.href = '/login';
   };
 
   return (
