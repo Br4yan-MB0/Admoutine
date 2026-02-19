@@ -23,13 +23,14 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
+  // Função login corrigida: Apenas salva dados
   const login = (token, userData) => {
     if (!token || !userData) return;
     
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-    router.push('/dashboard/home');
+    // Não fazemos router.push aqui para não bugar o redirecionamento do componente
   };
 
   const logout = () => {
