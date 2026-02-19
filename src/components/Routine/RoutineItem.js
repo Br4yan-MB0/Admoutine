@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 export default function RoutineItem({ routine, onDelete }) {
   const router = useRouter();
 
-  // Função para limpar strings como "2026-02-18T05:50"
   const formatTime = (t) => {
     if (!t) return "--:--";
     const timePart = t.includes('T') ? t.split('T')[1] : t;
@@ -12,28 +11,53 @@ export default function RoutineItem({ routine, onDelete }) {
   };
 
   return (
-    <div className={styles.routineCard}>
-      <div className={styles.routineInfo}>
-        <h3>{routine.title}</h3>
-        <span>⏰ {formatTime(routine.alarm_time || routine.time)}</span>
-      </div>
+    <div style={{
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'space-between', 
+      background: '#1a1a1a',
+      padding: '12px 16px',
+      borderRadius: '10px',
+      border: '1px solid #332f2e',
+      marginBottom: '10px',
+      width: '100%'
+    }}>
       
-      <div className={styles.cardActions}>
-        <button 
-          className={styles.iconBtn}
-          onClick={() => router.push(`/routine/edit/${routine.id}`)}
-          title="Editar"
-        >
-          ✏️
-        </button>
-        <button 
-          className={`${styles.iconBtn} ${styles.deleteBtn}`}
-          onClick={() => onDelete(routine.id)} 
-          title="Excluir"
-        >
-          🗑️
-        </button>
+      {/* LADO ESQUERDO: Título e Hora */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <h3 style={{ 
+          margin: 0, 
+          color: '#fff', 
+          fontSize: '1rem',
+          fontWeight: '600' 
+        }}>
+          {routine.title}
+        </h3>
+        <span style={{ color: '#c59d5f', fontSize: '0.85rem', fontWeight: 'bold' }}>
+          ⏰ {formatTime(routine.alarm_time || routine.time)}
+        </span>
       </div>
+
+      {/* LADO DIREITO: Botão Excluir */}
+      <button 
+        onClick={() => onDelete(routine.id)}
+        style={{
+          background: 'transparent',
+          border: 'none',
+          color: '#444',
+          cursor: 'pointer',
+          fontSize: '1.2rem',
+          padding: '5px',
+          transition: '0.2s',
+          display: 'flex',
+          alignItems: 'center',
+          lineHeight: '1'
+        }}
+        onMouseOver={(e) => e.target.style.color = '#ff4d4d'}
+        onMouseOut={(e) => e.target.style.color = '#444'}
+      >
+        ✕
+      </button>
     </div>
   );
 }

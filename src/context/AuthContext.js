@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const AuthContext = createContext();
@@ -10,33 +10,33 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
 
-    if (!token) {
-      setLoading(false);
-      return;
+    if (token && savedUser && savedUser !== "undefined") {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (err) {
+        console.error("Erro no parse do user:", err);
+        logout();
+      }
     }
-
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      setUser(payload);
-    } catch (err) {
-      localStorage.removeItem('token');
-    }
-
     setLoading(false);
   }, []);
 
-  const login = (token) => {
+  const login = (token, userData) => {
+    if (!token || !userData) return;
+    
     localStorage.setItem('token', token);
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    setUser(payload);
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
     router.push('/dashboard/home');
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setUser(null);
-    router.push('/');
+    router.push('/login');
   };
 
   return (
@@ -46,6 +46,4 @@ export function AuthProvider({ children }) {
   );
 }
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);

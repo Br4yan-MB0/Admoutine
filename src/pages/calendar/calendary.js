@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+// Caminhos corrigidos baseados na sua árvore:
 import CalendarGrid from '../../components/Calendar/CalendarGrid';
 import EventCard from '../../components/Calendar/EventCard';
-import NewEventModal from '../../components/Calendar/NewEventModal';
+import NewEventModal from '../../components/Events/NewEventModal'; 
 import styles from '../../styles/Calendar.module.css';
 
 export default function CalendarPage() {
@@ -25,8 +26,7 @@ export default function CalendarPage() {
 
   useEffect(() => { fetchEvents(); }, []);
 
-  // --- FILTRAGEM CORRIGIDA ---
-  // Pendentes: Treinos com tarefas abertas OU Sociais com is_completed = 0
+  // Lógica de filtragem (Mantida como você fez, está ótima)
   const pendingEvents = events.filter(e => {
     if (e.category === 'workout') {
       return e.tasks && e.tasks.length > 0 && e.tasks.some(t => !t.is_completed);
@@ -34,7 +34,6 @@ export default function CalendarPage() {
     return !e.is_completed;
   });
   
-  // Concluídos: Treinos com todas as tarefas feitas OU Sociais com is_completed = 1
   const completedEvents = events.filter(e => {
     if (e.category === 'workout') {
       return e.tasks && e.tasks.length > 0 && e.tasks.every(t => t.is_completed);

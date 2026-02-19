@@ -19,18 +19,19 @@ export default async function handler(req, res) {
     }
 
     // 3. CRIAR NOVA TASK (MÉTODO POST)
+    // 3. CRIAR NOVA TASK (MÉTODO POST)
     if (req.method === 'POST') {
       const { title, duration } = req.body;
 
-      // Validação simples
       if (!title) {
         return res.status(400).json({ message: 'O título da tarefa é obrigatório.' });
       }
 
-      // Insere no banco (a coluna duration já deve existir no seu DB)
+      // CORREÇÃO: Usamos aspas simples para o valor 'pending' e 
+      // garantimos que o número de ? bate com o número de valores.
       const [result] = await pool.query(
-        'INSERT INTO tasks (user_id, title, duration, status) VALUES (?, ?, ?, "pending")',
-        [user.id, title, duration || 60] // Salva 60s se não vier nada
+        "INSERT INTO tasks (user_id, title, duration, status) VALUES (?, ?, ?, 'pending')",
+        [user.id, title, duration || 60]
       );
 
       return res.status(201).json({ 

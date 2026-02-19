@@ -6,8 +6,10 @@ export default function EventCard({ event, onUpdate }) {
   if (!event) return null;
 
   const isWorkout = event.category === 'workout';
-  // Verifica se o evento social está concluído (usando uma propriedade do objeto ou simulando no clique)
-  const isEventDone = !!event.is_completed; 
+  const isEventDone = !!event.is_completed;
+
+  // Lógica para calcular se expirou ou quanto tempo falta (opcional para o visual)
+  const isExpired = event.expires_at && new Date(event.expires_at) < new Date();
 
   const handleDelete = async () => {
     if (confirm("Deseja excluir este evento?")) {
@@ -22,7 +24,6 @@ export default function EventCard({ event, onUpdate }) {
     }
   };
 
-  // Função para marcar tarefa (Treino) ou o Evento Inteiro (Social)
   const handleToggle = async (id, newState, type = 'task') => {
     const token = localStorage.getItem("token");
     const endpoint = type === 'task' ? '/api/events/toggle-task' : '/api/events/toggle-event';
@@ -42,16 +43,22 @@ export default function EventCard({ event, onUpdate }) {
   };
 
   return (
-    <div className={`${styles.card} ${isWorkout ? styles.workoutBorder : styles.socialBorder} ${isEventDone ? styles.cardDone : ''}`}>
+    <div className={`${styles.card} ${isWorkout ? styles.workoutBorder : styles.socialBorder}`}>
       <div className={styles.cardHeader}>
         <div>
-          <h3 className={`${styles.title} ${isWorkout ? styles.textWorkout : styles.textSocial} ${isEventDone ? styles.completed : ''}`}>
+          <h3 className={`${styles.title} ${isWorkout ? styles.textWorkout : styles.textSocial}`}>
             {event.title}
           </h3>
           <span className={styles.categoryLabel}>
             {isWorkout ? '🏋️ Treino' : '📅 Evento Social'}
           </span>
         </div>
+        {/* Tag de Expiração para Social */}
+        {!isWorkout && (
+          <span className={styles.expireTag}>
+            {isExpired ? "Expirado" : "Temporário"}
+          </span>
+        )}
       </div>
 
       <div className={styles.cardContent}>
@@ -74,13 +81,8 @@ export default function EventCard({ event, onUpdate }) {
         ) : (
           <div className={styles.socialBox}>
              <div className={styles.taskRow}>
-                <input 
-                  type="checkbox" 
-                  checked={isEventDone} 
-                  onChange={(e) => handleToggle(event.id, e.target.checked, 'event')} 
-                  className={styles.checkbox}
-                />
-                <p className={`${styles.descriptionBox} ${isEventDone ? styles.completed : ''}`}>
+                {/* REMOVIDO O CHECKBOX AQUI PARA SOCIAL */}
+                <p className={styles.descriptionBox}>
                   {event.description || "Nenhuma descrição."}
                 </p>
              </div>

@@ -1,66 +1,99 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import styles from '../../styles/Home.module.css';
 
 export default function DashboardHome() {
-  const [user, setUser] = useState({ name: 'Usuário', nationality: '' });
-  const [stats, setStats] = useState({ tasks: 85, events: 12, streak: 5 });
-  const [quote, setQuote] = useState("");
+  // 1. Hooks de estado sempre no topo
+  const { user } = useAuth();
+  const [stats, setStats] = useState({ productivity: 0, tasksDone: 0, tasksTotal: 0 });
+  const [displayName, setDisplayName] = useState("Utilizador");
 
-  const quotes = [
-    "A disciplina é a ponte entre metas e realizações.",
-    "O seu futuro é criado pelo que você faz hoje, não amanhã.",
-    "Mantenha o foco no seu ouro interior."
-  ];
-
+  // 2. Efeito para carregar o nome de utilizador do localStorage (Backup do Auth)
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
-    if (savedUser.name) setUser(savedUser);
-    setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      try {
+        const parsed = JSON.parse(savedUser);
+        setDisplayName(parsed.username || "Utilizador");
+      } catch (e) {
+        console.error("Erro ao ler user do localStorage", e);
+      }
+    } else if (user?.username) {
+      setDisplayName(user.username);
+    }
+  }, [user]);
+
+  // 3. Efeito para buscar as estatísticas
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const res = await fetch('/api/user/stats', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          setStats(data);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar estatísticas:", err);
+      }
+    };
+
+    fetchStats();
   }, []);
+
+  const renderFlag = (nat) => {
+    const flags = { 'Brasil': '🇧🇷', 'Portugal': '🇵🇹', 'EUA': '🇺🇸', 'Angola': '🇦🇴' };
+    return flags[nat] || '🌍';
+  };
 
   return (
     <div className={styles.container}>
-      <header className={styles.hero}>
-        <h1 className={styles.welcome}>
-          Olá, {user.name} <span className={styles.flag}>{user.nationality === 'Brasil' ? '🇧🇷' : '🏳️'}</span>
-        </h1>
-        <p className={styles.quote}>"{quote}"</p>
+      <header className={styles.header} style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <h2 style={{ color: '#c59d5f', fontSize: '1.8rem', fontWeight: '300' }}>
+          Bem-vindo, <span style={{ color: '#c59d5f', fontWeight: 'bold' }}>{displayName}</span>
+        </h2>
       </header>
 
-      <section className={styles.statsGrid}>
-        <div className={styles.statCard}>
-          <span className={styles.statLabel}>Progresso Diário</span>
-          <div className={styles.progressCircle}>
-            <span className={styles.statValue}>{stats.tasks}%</span>
+      <section className={styles.statsGrid} style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className={styles.statCard} style={{ 
+          background: '#1a1a1a', 
+          padding: '30px', 
+          borderRadius: '20px', 
+          border: '1px solid #332f2e',
+          textAlign: 'center',
+          maxWidth: '400px',
+          width: '100%'
+        }}>
+          <h3 style={{ color: '#c59d5f', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.9rem' }}>
+            Produtividade do Dia
+          </h3>
+          <div className={styles.progressCircle} style={{ margin: '20px auto' }}>
+            <span className={styles.percentage} style={{ fontSize: '2.5rem', color: '#fff', fontWeight: 'bold' }}>
+              {stats.productivity}%
+            </span>
           </div>
-          <p className={styles.statDesc}>Tasks concluídas hoje</p>
-        </div>
-
-        <div className={styles.statCard}>
-          <span className={styles.statLabel}>Eventos</span>
-          <span className={styles.statValue}>{stats.events}</span>
-          <p className={styles.statDesc}>Para esta semana</p>
-        </div>
-
-        <div className={styles.statCard}>
-          <span className={styles.statLabel}>Fogo de Hábito</span>
-          <span className={styles.statValue}>{stats.streak}🔥</span>
-          <p className={styles.statDesc}>Dias seguidos</p>
+          <p style={{ color: '#888', fontSize: '0.9rem' }}>
+            {stats.tasksDone} de {stats.tasksTotal} tarefas concluídas
+          </p>
         </div>
       </section>
 
-      <div className={styles.marketingCard}>
-        <h3>Sua Rotina, Seu Império</h3>
-        <p>O Chroutine foi desenhado para quem não aceita o comum. Continue lapidando seu dia.</p>
-      </div>
-
-      <footer className={styles.footer}>
-        <p className={styles.footerTitle}>PRECISA DE AJUDA COM SUA ROTINA?</p>
-        <div className={styles.contactInfo}>
-          <span>📧 suporte@chroutine.com</span>
+      <footer className={styles.footer} style={{ marginTop: '60px', textAlign: 'center', borderTop: '1px solid #222', paddingTop: '30px' }}>
+        <p className={styles.footerTitle} style={{ color: '#c59d5f', fontSize: '0.8rem', fontWeight: 'bold', letterSpacing: '1px' }}>
+          PRECISA DE AJUDA COM SUA ROTINA?
+        </p>
+        <div className={styles.contactInfo} style={{ color: '#666', fontSize: '0.85rem', margin: '15px 0' }}>
+          <span style={{ display: 'block', marginBottom: '5px' }}>📧 suporteadt@gmail.com</span>
           <span>💬 WhatsApp Premium</span>
         </div>
-        <p className={styles.copyright}>© 2026 Chroutine - Ouro em cada segundo.</p>
+        <p className={styles.copyright} style={{ color: '#333', fontSize: '0.7rem' }}>
+          © 2026 Chroutine - Ouro em cada segundo.
+        </p>
       </footer>
     </div>
   );

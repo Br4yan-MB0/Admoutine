@@ -1,77 +1,113 @@
 .container {
-  max-width: 700px;
-  margin: 40px auto;
-  padding: 0 20px;
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: 900;
-  margin-bottom: 30px;
-  color: var(--text-p);
+  color: #c59d5f;
+  text-align: center;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
 }
 
 .card {
-  background: var(--card-bg);
+  background: #1a1a1a;
+  border: 1px solid #332f2e;
+  border-radius: 12px;
   padding: 25px;
-  border: 2px solid var(--border);
-  border-radius: 15px;
-  margin-bottom: 25px;
-  box-shadow: 6px 6px 0px var(--border);
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease;
+}
+
+.card:hover {
+  border-color: #c59d5f;
 }
 
 .cardTitle {
+  color: #c59d5f;
   margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 1.2rem;
-  color: var(--text-p);
 }
 
 .infoGroup {
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .label {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
   display: block;
-  font-size: 0.8rem;
-  color: var(--text-s);
-  font-weight: 700;
-  margin-bottom: 5px;
 }
 
 .value {
-  font-size: 1rem;
   font-weight: 600;
-  color: var(--text-p);
+  font-size: 1.1rem;
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.inputField:focus {
+  border-color: #c59d5f;
+  outline: none;
 }
 
 .btnPrimary {
-  background: var(--text-p);
-  color: var(--bg-p);
-  border: 2px solid var(--border);
-  padding: 10px 20px;
-  border-radius: 8px;
+  width: 100%;
+  background: #c59d5f;
+  color: #111;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
   font-weight: 800;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.btnPrimary:hover {
+  background: #d4af37;
+  transform: translateY(-2px);
 }
 
 .btnOutline {
   background: transparent;
-  border: 2px solid var(--text-p);
-  color: var(--text-p);
+  border: 1px solid #c59d5f;
+  color: #c59d5f;
   padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 700;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .btnLogout {
-  background: #ff4d4d; /* Cor de erro/alerta padrão */
-  color: white;
-  border: 2px solid var(--border);
   width: 100%;
+  background: #3d0000;
+  color: #ff4d4d;
+  border: 1px solid #660000;
   padding: 12px;
-  border-radius: 8px;
-  font-weight: 800;
+  border-radius: 6px;
+  font-weight: bold;
   cursor: pointer;
   margin-top: 20px;
+}
+
+.appearanceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

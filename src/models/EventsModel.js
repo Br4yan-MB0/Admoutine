@@ -6,20 +6,21 @@ const EventModel = {
     try {
       await connection.beginTransaction();
 
+      // LÓGICA DE EXPIRAÇÃO: Se for social, soma 2 horas à hora atual
+      const expiresAt = category === 'social' 
+        ? new Date(Date.now() + 2 * 60 * 60 * 1000) 
+        : null;
+
       const [eventResult] = await connection.query(
-        'INSERT INTO events (user_id, title, recurrence, category, description) VALUES (?, ?, ?, ?, ?)',
-        [userId, title, recurrence || 'none', category, description || '']
+        'INSERT INTO events (user_id, title, recurrence, category, description, expires_at) VALUES (?, ?, ?, ?, ?, ?)',
+        [userId, title, recurrence || 'none', category, description || '', expiresAt]
       );
 
       const eventId = eventResult.insertId;
 
-      if (tasks && tasks.length > 0) {
-        // SQL limpo: apenas event_id e task_name
-        const values = tasks.map(task => [
-          eventId, 
-          task.task_name
-        ]);
-        
+      // Só insere tarefas se for treino e houver tarefas
+      if (category === 'workout' && tasks && tasks.length > 0) {
+        const values = tasks.map(task => [eventId, task.task_name]);
         await connection.query(
           'INSERT INTO event_tasks (event_id, task_name) VALUES ?',
           [values]
@@ -53,9 +54,6 @@ const EventModel = {
     rows.forEach(row => {
       if (!eventsMap[row.id]) {
         eventsMap[row.id] = { ...row, tasks: [] };
-        delete eventsMap[row.id].task_id;
-        delete eventsMap[row.id].task_name;
-        delete eventsMap[row.id].is_completed;
       }
       if (row.task_id) {
         eventsMap[row.id].tasks.push({

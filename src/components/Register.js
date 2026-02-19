@@ -1,14 +1,8 @@
 import { useState } from 'react';
-import styles from '../styles/Settings.module.css'; // Usando a base de inputs elegantes
+import styles from '../styles/Settings.module.css';
 
 export default function Register() {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    gender: '',
-    nationality: ''
-  });
+  const [formData, setFormData] = useState({ username: '', password: '', gender: '', nationality: '' });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -16,40 +10,26 @@ export default function Register() {
     e.preventDefault();
     setMessage('');
     setError('');
-
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          email: formData.email.trim().toLowerCase(),
-        }),
+        body: JSON.stringify(formData),
       });
-
       const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || 'Erro ao registrar');
-        return;
-      }
-
-      setMessage('Conta dourada criada! Redirecionando para login...');
-      setFormData({ username: '', email: '', password: '', gender: '', nationality: '' });
-      
-      // Pequeno delay para o user ler a mensagem de sucesso
-      setTimeout(() => { window.location.href = '/login'; }, 2000);
-      
+      if (!res.ok) throw new Error(data.message || 'Erro ao registrar');
+      setMessage('Conta criada com sucesso!');
+      setTimeout(() => { window.location.href = '/login'; }, 1500);
     } catch (err) {
-      setError('Erro de conexão com o servidor');
+      setError(err.message);
     }
   };
 
   return (
-    <div className={styles.container} style={{maxWidth: '450px', marginTop: '10vh'}}>
-      <div className={styles.card}>
-        <h2 className={styles.cardTitle} style={{textAlign: 'center', fontSize: '1.8rem'}}>Criar Conta</h2>
-        <p style={{textAlign: 'center', color: 'var(--text-s)', marginBottom: '20px'}}>Junte-se ao Admoutine</p>
+    <div className={styles.container} style={{ maxWidth: '450px', display: 'flex', alignItems: 'center', minHeight: '90vh' }}>
+      <div className={styles.card} style={{ width: '100%', border: '1px solid #c59d5f' }}>
+        <h2 className={styles.title} style={{ fontSize: '1.8rem', marginBottom: '10px' }}>CRIAR CONTA</h2>
+        <p style={{ textAlign: 'center', color: '#888', marginBottom: '30px', fontSize: '0.9rem' }}>JUNTE-SE À ELITE DA PRODUTIVIDADE</p>
 
         <form onSubmit={handleSubmit}>
           <input
@@ -59,28 +39,18 @@ export default function Register() {
             onChange={e => setFormData({...formData, username: e.target.value})}
             required
           />
-
-          <input
-            className={styles.inputField}
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={e => setFormData({...formData, email: e.target.value})}
-            required
-          />
-
           <input
             className={styles.inputField}
             type="password"
-            placeholder="Senha"
+            placeholder="Senha (mín. 6 caracteres)"
             value={formData.password}
             onChange={e => setFormData({...formData, password: e.target.value})}
             required
           />
-
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <select 
               className={styles.inputField}
+              style={{ color: formData.gender ? '#fff' : '#888' }}
               value={formData.gender}
               onChange={e => setFormData({...formData, gender: e.target.value})}
               required
@@ -90,7 +60,6 @@ export default function Register() {
               <option value="Feminino">Feminino</option>
               <option value="Outro">Outro</option>
             </select>
-
             <input
               className={styles.inputField}
               placeholder="Nacionalidade"
@@ -99,17 +68,16 @@ export default function Register() {
               required
             />
           </div>
-
-          <button className={styles.btnPrimary} style={{width: '100%', marginTop: '10px'}} type="submit">
-            Registrar
+          <button className={styles.btnPrimary} style={{ marginTop: '10px' }} type="submit">
+            REGISTRAR AGORA
           </button>
         </form>
 
-        {error && <p style={{color: 'var(--danger)', textAlign: 'center', marginTop: '10px'}}>{error}</p>}
-        {message && <p style={{color: 'var(--success)', textAlign: 'center', marginTop: '10px'}}>{message}</p>}
+        {error && <p style={{ color: '#ff4d4d', textAlign: 'center', marginTop: '15px' }}>{error}</p>}
+        {message && <p style={{ color: '#c59d5f', textAlign: 'center', marginTop: '15px' }}>{message}</p>}
         
-        <p style={{textAlign: 'center', marginTop: '20px', fontSize: '0.9rem'}}>
-          Já tem conta? <a href="/login" style={{color: 'var(--text-p)', fontWeight: 'bold'}}>Faça Login</a>
+        <p style={{ textAlign: 'center', marginTop: '25px', fontSize: '0.85rem', color: '#888' }}>
+          Já tem conta? <a href="/login" style={{ color: '#c59d5f', fontWeight: 'bold', textDecoration: 'none' }}>Faça Login</a>
         </p>
       </div>
     </div>

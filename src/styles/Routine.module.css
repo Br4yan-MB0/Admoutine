@@ -1,36 +1,7 @@
-/* --- CONTAINER PRINCIPAL --- */
-.formContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  padding: 20px;
-}
-
-/* --- CARDS (FORMULÁRIO E LISTA) --- */
-.formCard {
-  background: #1e1b1a;
-  padding: 40px;
-  border-radius: 16px;
-  border: 1px solid #332f2e;
-  width: 100%;
-  max-width: 450px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
 .listContainer {
-  width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   margin: 40px auto;
-  padding: 0 20px;
-}
-
-/* --- TÍTULOS E HEADERS --- */
-.cardTitle {
-  color: #c59d5f; /* Dourado */
-  font-size: 1.8rem;
-  margin-bottom: 30px;
-  text-align: center;
+  padding: 20px;
 }
 
 .listHeader {
@@ -38,163 +9,81 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  border-bottom: 1px solid #332f2e;
+  border-bottom: 2px solid #c59d5f;
   padding-bottom: 15px;
 }
 
-/* --- CAMPOS DE FORMULÁRIO --- */
-.fieldGroup {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.label {
-  color: #a0522d; /* Terracota */
-  font-size: 0.75rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-}
-
-.inputField {
-  background: #2a2625;
-  border: 1px solid #3d3836;
-  padding: 14px;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.inputField:focus {
-  border-color: #c59d5f;
-}
-
-/* --- ITENS DA LISTA (ROUTINE ITEM) --- */
-.routineCard {
-  background: #1e1b1a;
-  border: 1px solid #332f2e;
-  border-left: 4px solid #c59d5f; /* Destaque dourado lateral */
-  padding: 20px;
-  border-radius: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  transition: transform 0.2s;
-}
-
-.routineCard:hover {
-  transform: translateX(5px);
-  background: #252120;
-}
-
-.routineInfo {
-  display: flex;
-  flex-direction: column;
-}
-
-.routineInfo h3 {
-  color: #fff;
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.routineInfo span {
-  color: #a0522d;
-  font-weight: 700;
-  font-size: 0.9rem;
-  margin-top: 4px;
-}
-
-/* --- BOTÕES UNIFICADOS --- */
-
-/* Botão Principal (Dourado) */
-.btnSave, .addBtnSmall {
-  background: #c59d5f;
-  color: #1a1a1a;
-  padding: 12px 20px;
-  border-radius: 8px;
-  border: none;
-  font-weight: 700;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btnSave:hover, .addBtnSmall:hover {
-  background: #d4af37;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(197, 157, 95, 0.3);
-}
-
-/* Botão de Cancelar/Voltar (Outline) */
-.btnCancel {
-  background: transparent;
-  color: #888;
-  padding: 12px;
-  border: 1px solid #332f2e;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: 0.2s;
-  width: 100%;
-}
-
-.btnCancel:hover {
-  color: #fff;
-  background: #2a2625;
-  border-color: #444;
-}
-
-/* Botões de Ícone (Edit/Delete) */
-.iconBtn {
-  background: transparent;
-  border: 1px solid #332f2e;
+.cardTitle {
   color: #c59d5f;
-  padding: 8px;
-  border-radius: 8px;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.addBtnSmall {
+  background: #c59d5f;
+  color: #111;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
-  transition: 0.2s;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.iconBtn:hover {
-  background: #2a2625;
-  border-color: #c59d5f;
-  transform: scale(1.1);
-}
-
-/* Botão de Deletar específico */
-.deleteBtn:hover {
-  background: #441a1a;
-  color: #ff4d4d;
-  border-color: #ff4d4d;
-}
-
-/* --- LAYOUTS DE AÇÃO --- */
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 30px;
-}
-
-.cardActions {
-  display: flex;
-  gap: 12px;
 }
 
 .emptyState {
   text-align: center;
-  padding: 40px;
+  padding: 50px;
+  background: #1a1a1a;
+  border-radius: 12px;
   color: #888;
+  border: 1px dashed #333;
+}
+
+.actions {
+  margin-top: 30px;
+}
+
+.btnCancel {
+  width: 100%;
+  background: transparent;
+  color: #888;
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btnCancel:hover {
+  color: #fff;
+  border-color: #c59d5f;
+}
+
+/* Grid para a página de rotinas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* O botão em si */
+.deleteBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 77, 77, 0.2); /* Borda vermelha quase invisível */
+  color: #666; /* Cor neutra para não chamar atenção */
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Quando passas o rato: o "momento do perigo" */
+.deleteBtn:hover {
+  background: rgba(255, 77, 77, 0.1); /* Fundo levemente avermelhado */
+  border-color: #ff4d4d; /* Borda fica viva */
+  color: #ff4d4d; /* O ícone/texto acende em vermelho */
+  transform: scale(1.1);
 }

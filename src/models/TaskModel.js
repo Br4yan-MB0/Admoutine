@@ -1,7 +1,6 @@
 import pool from '../lib/db';
 
 const TaskModel = {
-
   async findAllByUser(userId) {
     const [rows] = await pool.query(
       'SELECT * FROM tasks WHERE user_id = ? ORDER BY created_at DESC',
@@ -10,27 +9,19 @@ const TaskModel = {
     return rows;
   },
 
-  async findById(id, userId) {
-    const [rows] = await pool.query(
-      'SELECT * FROM tasks WHERE id = ? AND user_id = ?',
-      [id, userId]
-    );
-    return rows[0] || null;
-  },
-
-  async create({ user_id, title, description }) {
+  async create({ user_id, title, duration }) {
     const [result] = await pool.query(
-      'INSERT INTO tasks (user_id, title, description) VALUES (?, ?, ?)',
-      [user_id, title, description]
+      'INSERT INTO tasks (user_id, title, duration, is_completed) VALUES (?, ?, ?, 0)',
+      [user_id, title, duration]
     );
-
-    return { id: result.insertId, user_id, title, description };
+    return { id: result.insertId, user_id, title, duration };
   },
 
-  async update(id, userId, { title, description }) {
+  // Método vital para o Timer funcionar:
+  async markAsCompleted(id, userId) {
     await pool.query(
-      'UPDATE tasks SET title = ?, description = ? WHERE id = ? AND user_id = ?',
-      [title, description, id, userId]
+      'UPDATE tasks SET is_completed = 1, completed_at = NOW() WHERE id = ? AND user_id = ?',
+      [id, userId]
     );
   },
 
@@ -40,7 +31,6 @@ const TaskModel = {
       [id, userId]
     );
   }
-
 };
 
 export default TaskModel;

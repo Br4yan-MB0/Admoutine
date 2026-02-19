@@ -28,11 +28,28 @@ export default async function handler(req, res) {
     // 3. Método PUT (Caso queira atualizar status ou título depois)
     if (req.method === 'PUT') {
       const { title, duration, status } = req.body;
+      
+      // Buscamos os dados atuais da task para não sobrescrever com NULL
+      const [currentTask] = await pool.query(
+        'SELECT title, duration, status FROM tasks WHERE id = ? AND user_id = ?',
+        [id, user.id]
+      );
+
+      if (currentTask.length === 0) {
+        return res.status(404).json({ message: 'Tarefa não encontrada' });
+      }
+
+      // Se o campo não veio no body, usamos o que já está no banco
+      const finalTitle = title !== undefined ? title : currentTask[0].title;
+      const finalDuration = duration !== undefined ? duration : currentTask[0].duration;
+      const finalStatus = status !== undefined ? status : currentTask[0].status;
+
       await pool.query(
         'UPDATE tasks SET title = ?, duration = ?, status = ? WHERE id = ? AND user_id = ?',
-        [title, duration, status, id, user.id]
+        [finalTitle, finalDuration, finalStatus, id, user.id]
       );
-      return res.status(200).json({ message: 'Tarefa atualizada' });
+
+      return res.status(200).json({ message: 'Tarefa atualizada com sucesso' });
     }
 
     // Caso usem um método não tratado (ex: POST nesta rota)

@@ -1,10 +1,10 @@
 import pool from '../lib/db';
 
 export default class UserModel {
-  static async create({ name, email, password }) {
+  static async create({ name, email, password, gender, nationality }) {
     const [result] = await pool.query(
-      'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-      [name, email, password]
+      'INSERT INTO users (name, email, password, gender, nationality) VALUES (?, ?, ?, ?, ?)',
+      [name, email, password, gender, nationality]
     );
     return result.insertId;
   }
@@ -19,7 +19,7 @@ export default class UserModel {
 
   static async findById(id) {
     const [rows] = await pool.query(
-      'SELECT id, name, email FROM users WHERE id = ?',
+      'SELECT id, name, email, gender, nationality FROM users WHERE id = ?',
       [id]
     );
     return rows[0];

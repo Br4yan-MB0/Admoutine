@@ -4,7 +4,6 @@ export default class RoutineModel {
 
   // 📌 Criar rotina
   static async create({ userId, name, description }) {
-
     if (!userId || !name) {
       throw new Error('Dados inválidos para criar rotina');
     }
@@ -19,9 +18,10 @@ export default class RoutineModel {
     return result.insertId;
   }
 
-  // 📌 Listar por usuário
+  // 📌 Listar por usuário (Com JOIN para trazer as tarefas da rotina)
   static async getAllByUser(userId) {
-    const [rows] = await pool.query(
+    // 1. Busca as rotinas
+    const [routines] = await pool.query(
       `SELECT id, name as title, description, is_active, created_at
        FROM routines
        WHERE user_id = ?
@@ -29,10 +29,21 @@ export default class RoutineModel {
       [userId]
     );
 
-    return rows;
+    // 2. Busca as tarefas de cada rotina para montar o objeto completo
+    const routinesWithTasks = await Promise.all(routines.map(async (routine) => {
+      const [tasks] = await pool.query(
+        `SELECT id, task_name, duration_seconds 
+         FROM routine_tasks 
+         WHERE routine_id = ? ORDER BY id ASC`,
+        [routine.id]
+      );
+      return { ...routine, tasks };
+    }));
+
+    return routinesWithTasks;
   }
 
-  // 📌 Buscar por ID
+  // 📌 Buscar por ID (Também trazendo as tarefas)
   static async getById(id, userId) {
     const [rows] = await pool.query(
       `SELECT id, name as title, description, is_active, created_at
@@ -41,7 +52,16 @@ export default class RoutineModel {
       [id, userId]
     );
 
-    return rows[0];
+    if (rows.length === 0) return null;
+
+    const [tasks] = await pool.query(
+      `SELECT id, task_name, duration_seconds 
+       FROM routine_tasks 
+       WHERE routine_id = ? ORDER BY id ASC`,
+      [id]
+    );
+
+    return { ...rows[0], tasks };
   }
 
   // 📌 Atualizar
@@ -54,8 +74,11 @@ export default class RoutineModel {
     );
   }
 
-  // 📌 Deletar
+  // 📌 Deletar (Importante: as rotinas geralmente têm tarefas vinculadas)
   static async delete(id, userId) {
+    // Primeiro deletamos as tarefas da rotina (ou use ON DELETE CASCADE no MySQL)
+    await pool.query(`DELETE FROM routine_tasks WHERE routine_id = ?`, [id]);
+    
     await pool.query(
       `DELETE FROM routines 
        WHERE id = ? AND user_id = ?`,
