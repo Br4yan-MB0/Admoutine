@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/router'; // 1. Importar o roteador
 import styles from '../styles/Settings.module.css';
 
 export default function Login() {
@@ -7,6 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
+  const router = useRouter(); // 2. Inicializar o roteador
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,16 +19,28 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: username.trim(), password: password.trim() }),
       });
+      
       const data = await res.json();
+      
       if (!res.ok) throw new Error(data.message || 'Credenciais incorretas');
-      login(data.token, data.user); 
+      
+      await login(data.token, data.user); 
+      
+      router.push('/dashboard/home'); 
+
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className={styles.container} style={{ maxWidth: '400px', display: 'flex', alignItems: 'center', minHeight: '80vh' }}>
+    <div className={styles.container} style={{ 
+      maxWidth: '400px', 
+      display: 'flex', 
+      alignItems: 'center', 
+      minHeight: '80vh',
+      margin: '0 auto' // Centralizar na tela
+    }}>
       <div className={styles.card} style={{ width: '100%', border: '1px solid #c59d5f' }}>
         <h2 className={styles.title} style={{ fontSize: '1.8rem', marginBottom: '10px' }}>LOGIN</h2>
         <p style={{ textAlign: 'center', color: '#888', marginBottom: '30px', fontSize: '0.9rem', letterSpacing: '1px' }}>
