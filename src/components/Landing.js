@@ -20,7 +20,7 @@ export default function Landing() {
         fontWeight: '900',
         textTransform: 'uppercase'
       }}>
-        CHROUTINE
+        ADMOUTINE
       </h1>
 
       <p style={{ 
@@ -68,7 +68,7 @@ export default function Landing() {
       </div>
 
       <footer style={{ position: 'absolute', bottom: '30px', color: '#333', fontSize: '0.8rem', letterSpacing: '2px' }}>
-        CHROUTINE © 2026 - O LUXO DA PRODUTIVIDADE
+        ADMOUTINE © 2026 - O LUXO DA PRODUTIVIDADE
       </footer>
     </div>
   );
