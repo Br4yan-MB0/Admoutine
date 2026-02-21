@@ -34,7 +34,7 @@ export default function Login() {
       await login(data.token, data.user); 
       
       // 2. Força a navegação para o Dashboard
-      router.push('/dashboard'); 
+      router.push('/dashboard/home'); 
 
     } catch (err) {
       setError(err.message);
