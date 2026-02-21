@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
     setUser(userData);
     
     // Alinhado com a estrutura de pastas do Next.js
-    router.push('/dashboard/home');
+    window.location.href = '/dashboard/home';
   };
 
   const logout = () => {
