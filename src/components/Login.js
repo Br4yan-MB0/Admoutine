@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/router'; // Adicionado para navegação
 import styles from '../styles/Settings.module.css';
 
 export default function Login() {
@@ -7,19 +8,35 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
+  const router = useRouter(); // Inicializando o router
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username.trim(), password: password.trim() }),
+        body: JSON.stringify({ 
+          username: username.trim(), 
+          password: password.trim() 
+        }),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Credenciais incorretas');
-      login(data.token, data.user); 
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Credenciais incorretas');
+      }
+
+      // 1. Salva os dados no contexto (Token e User)
+      await login(data.token, data.user); 
+      
+      // 2. Redirecionamento forçado para a Home ou Dashboard
+      // Isso resolve o problema de colocar os dados e nada acontecer
+      router.push('/dashboard'); 
+
     } catch (err) {
       setError(err.message);
     }

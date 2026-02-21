@@ -12,7 +12,8 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
 
-    if (token && savedUser && savedUser !== "undefined") {
+    // Proteção contra "undefined" em string, comum quando a API falha
+    if (token && savedUser && savedUser !== "undefined" && savedUser !== "null") {
       try {
         setUser(JSON.parse(savedUser));
       } catch (err) {
@@ -24,12 +25,18 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = (token, userData) => {
-    if (!token || !userData) return;
+    if (!token || !userData) {
+        console.error("Login falhou: Token ou UserData ausentes");
+        return;
+    }
     
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-    router.push('/dashboard/home');
+
+    // AJUSTE DE ROTA: Verifique se sua pasta é /dashboard ou /dashboard/home
+    // Vou colocar /dashboard que é o padrão mais comum.
+    router.push('/dashboard'); 
   };
 
   const logout = () => {
@@ -41,7 +48,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={{ user, login, logout, loading }}>
-      {children}
+      {!loading && children} 
     </AuthContext.Provider>
   );
 }

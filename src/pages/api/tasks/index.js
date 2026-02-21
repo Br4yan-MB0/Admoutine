@@ -29,8 +29,9 @@ export default async function handler(req, res) {
 
       // CORREÇÃO: Usamos aspas simples para o valor 'pending' e 
       // garantimos que o número de ? bate com o número de valores.
+      // No api/tasks/index.js (Dentro do POST)
       const [result] = await pool.query(
-        "INSERT INTO tasks (user_id, title, duration, status) VALUES (?, ?, ?, 'pending')",
+        "INSERT INTO tasks (user_id, title, duration, status, completed) VALUES (?, ?, ?, 'pending', 0)",
         [user.id, title, duration || 60]
       );
 

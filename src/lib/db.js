@@ -6,8 +6,13 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: parseInt(process.env.DB_PORT),
+  // --- AJUSTES PARA VERCEL/AIVEN ---
+  waitForConnections: true,    // Aguarda uma conexão ficar livre em vez de dar erro
+  connectionLimit: 5,          // Mantém poucas conexões abertas (ideal para plano free)
+  queueLimit: 0,               // Sem limite de fila para as requisições não "morrerem"
+  // --------------------------------
   ssl: {
-    rejectUnauthorized: false // Fundamental para o Aiven aceitar a Vercel
+    rejectUnauthorized: false 
   }
 });
 
