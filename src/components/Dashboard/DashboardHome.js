@@ -1,14 +1,30 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/router'; // 1. IMPORTAR O ROUTER
 import styles from '../../styles/Home.module.css';
 
 export default function DashboardHome() {
   // 1. Hooks de estado sempre no topo
-  const { user } = useAuth();
+  const { user, loading } = useAuth(); // ADICIONAR O LOADING AQUI
+  const router = useRouter(); // INICIALIZAR O ROUTER
   const [stats, setStats] = useState({ productivity: 0, tasksDone: 0, tasksTotal: 0 });
   const [displayName, setDisplayName] = useState("Utilizador");
 
-  // 2. Efeito para carregar o nome de utilizador do localStorage (Backup do Auth)
+  // === PROTEÇÃO DE ROTA ===
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace('/login');
+    }
+  }, [user, loading, router]);
+
+  // Se estiver carregando, mostra uma tela vazia ou um spinner para evitar o erro 307
+  if (loading) return null; 
+
+  // Se não tem user e não está carregando, não renderiza nada (o useEffect vai redirecionar)
+  if (!user) return null;
+  // ========================
+
+  // 2. Efeito para carregar o nome de utilizador do localStorage
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
@@ -45,11 +61,6 @@ export default function DashboardHome() {
 
     fetchStats();
   }, []);
-
-  const renderFlag = (nat) => {
-    const flags = { 'Brasil': '🇧🇷', 'Portugal': '🇵🇹', 'EUA': '🇺🇸', 'Angola': '🇦🇴' };
-    return flags[nat] || '🌍';
-  };
 
   return (
     <div className={styles.container}>

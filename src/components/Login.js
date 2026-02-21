@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/router'; // Adicionado para navegação
+import { useRouter } from 'next/router';
 import styles from '../styles/Settings.module.css';
 
 export default function Login() {
@@ -8,7 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
-  const router = useRouter(); // Inicializando o router
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,11 +30,10 @@ export default function Login() {
         throw new Error(data.message || 'Credenciais incorretas');
       }
 
-      // 1. Salva os dados no contexto (Token e User)
+      // 1. Salva no contexto
       await login(data.token, data.user); 
       
-      // 2. Redirecionamento forçado para a Home ou Dashboard
-      // Isso resolve o problema de colocar os dados e nada acontecer
+      // 2. Força a navegação para o Dashboard
       router.push('/dashboard'); 
 
     } catch (err) {
