@@ -30,10 +30,7 @@ export default function Login() {
         throw new Error(data.message || 'Credenciais incorretas');
       }
 
-      // 1. Salva no contexto
       await login(data.token, data.user); 
-      
-      // 2. Força a navegação para o Dashboard
       window.location.href = '/dashboard/home';
 
     } catch (err) {
@@ -42,7 +39,7 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.container} style={{ maxWidth: '400px', display: 'flex', alignItems: 'center', minHeight: '80vh' }}>
+    <div className={styles.container} style={{ maxWidth: '400px', display: 'flex', alignItems: 'center', minHeight: '80vh', margin: '0 auto' }}>
       <div className={styles.card} style={{ width: '100%', border: '1px solid #c59d5f' }}>
         <h2 className={styles.title} style={{ fontSize: '1.8rem', marginBottom: '10px' }}>LOGIN</h2>
         <p style={{ textAlign: 'center', color: '#888', marginBottom: '30px', fontSize: '0.9rem', letterSpacing: '1px' }}>
@@ -66,7 +63,15 @@ export default function Login() {
             onChange={e => setPassword(e.target.value)}
             required
           />
-          <button className={styles.btnPrimary} style={{ marginTop: '10px' }} type="submit">
+          
+          {/* LINK DE RECUPERAÇÃO ADICIONADO AQUI */}
+          <div style={{ textAlign: 'right', marginBottom: '20px', marginTop: '-10px' }}>
+            <a href="/auth/forgot-password" style={{ color: '#c59d5f', fontSize: '0.75rem', textDecoration: 'none', opacity: '0.8' }}>
+              Esqueceu a senha?
+            </a>
+          </div>
+
+          <button className={styles.btnPrimary} type="submit">
             ENTRAR NO PAINEL
           </button>
         </form>

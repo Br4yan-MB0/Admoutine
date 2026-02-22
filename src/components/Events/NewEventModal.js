@@ -9,11 +9,11 @@ export default function NewEventModal({ onClose }) {
   const [tasksText, setTasksText] = useState('');
 
   const handleSave = async () => {
-    if (!title) return alert("Digite um título");
+    if (!title) return alert("Por favor, dê um título ao evento.");
     
-    // Pega o token do localStorage
     const token = localStorage.getItem("token");
     
+    // Processa as tarefas: garante que não enviamos lixo para a API
     const lines = tasksText.split(/\r?\n/).filter(line => line.trim() !== '');
     const processedTasks = lines.map(line => ({ task_name: line.trim() }));
 
@@ -22,33 +22,35 @@ export default function NewEventModal({ onClose }) {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // ADICIONADO ISSO PARA RESOLVER O 401
+          'Authorization': `Bearer ${token}`
         },
+        // Adicionei is_completed e garanti que os campos batem com o esquema relacional
         body: JSON.stringify({ 
           title, 
           category, 
           tasks: processedTasks, 
-          description, 
-          recurrence 
+          description: description || "Sem descrição", 
+          recurrence: recurrence === 'none' ? null : recurrence,
+          is_completed: false // Evita erro de campo nulo no banco
         })
       });
 
       if (res.ok) {
         onClose();
-      } else if (res.status === 401) {
-        alert("Sua sessão expirou. Faça login novamente.");
       } else {
-        alert("Erro ao salvar no banco de dados.");
+        const errorData = await res.json();
+        console.error("Erro da API:", errorData);
+        alert(`Erro: ${errorData.message || "Falha ao salvar no banco"}`);
       }
     } catch (error) {
       console.error("Erro na comunicação:", error);
-      alert("Erro de rede ao tentar salvar.");
+      alert("Erro de conexão. O servidor está ligado?");
     }
   };
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.modal}>
+      <div className={styles.modal} style={{ border: '1px solid #c59d5f' }}>
         <h2 className={styles.modalTitle}>Novo Evento</h2>
         
         <select value={category} onChange={e => setCategory(e.target.value)} className={styles.inputField}>
@@ -57,9 +59,9 @@ export default function NewEventModal({ onClose }) {
         </select>
 
         <div className={styles.fieldGroup}>
-          <label className={styles.label}>REPETIR:</label>
+          <label className={styles.label} style={{ color: '#c59d5f', fontSize: '10px' }}>REPETIR:</label>
           <select value={recurrence} onChange={e => setRecurrence(e.target.value)} className={styles.inputField}>
-            <option value="none">Selecionar...</option>
+            <option value="none">Não repetir</option>
             <option value="daily">Todo dia</option>
             <option value="weekly">Toda semana</option>
             <option value="monthly">Todo mês</option>
@@ -67,22 +69,56 @@ export default function NewEventModal({ onClose }) {
         </div>
 
         <input 
-          placeholder="Título" 
+          placeholder="Título do Evento" 
           value={title} 
           onChange={e => setTitle(e.target.value)} 
           className={styles.inputField} 
         />
 
         <textarea 
-          placeholder={category === 'workout' ? "Cole os exercícios (um por linha)" : "Descrição..."}
+          placeholder={category === 'workout' ? "Agachamento\nSupino\nRosca Direta" : "Descrição do compromisso..."}
           value={category === 'workout' ? tasksText : description}
           onChange={e => category === 'workout' ? setTasksText(e.target.value) : setDescription(e.target.value)}
           className={`${styles.inputField} ${styles.textarea}`}
+          style={{ minHeight: '100px' }}
         />
 
-        <div className={styles.buttonGroup}>
-          <button onClick={handleSave} className={styles.btnSave}>Salvar</button>
-          <button onClick={onClose} className={styles.btnCancel}>Cancelar</button>
+        <div className={styles.buttonGroup} style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+          <button 
+            onClick={handleSave} 
+            className={styles.btnSave}
+            style={{ flex: 1, backgroundColor: '#c59d5f', color: '#000', border: 'none', borderRadius: '50px', padding: '12px', fontWeight: 'bold', cursor: 'pointer' }}
+          >
+            Salvar
+          </button>
+          
+          <button 
+            type="button"
+            onClick={onClose} 
+            style={{
+              flex: 1,
+              padding: '12px',
+              backgroundColor: 'transparent',
+              color: '#888',
+              border: '1px solid #332f2e',
+              borderRadius: '50px',
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              fontSize: '11px',
+              cursor: 'pointer',
+              transition: '0.3s'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.color = '#fff';
+              e.currentTarget.style.borderColor = '#c59d5f';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.color = '#888';
+              e.currentTarget.style.borderColor = '#332f2e';
+            }}
+          >
+            Cancelar
+          </button>
         </div>
       </div>
     </div>

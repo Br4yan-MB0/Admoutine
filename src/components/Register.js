@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from '../styles/Settings.module.css';
 
 export default function Register() {
-  const [formData, setFormData] = useState({ username: '', password: '', gender: '', nationality: '' });
+  const [formData, setFormData] = useState({ username: '', email: '', password: '', gender: '', nationality: '' });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -37,6 +37,14 @@ export default function Register() {
             placeholder="Nome de usuário"
             value={formData.username}
             onChange={e => setFormData({...formData, username: e.target.value})}
+            required
+          />
+          <input
+            className={styles.inputField}
+            type="email"
+            placeholder="Seu melhor E-mail (Para recuperação)"
+            value={formData.email}
+            onChange={e => setFormData({...formData, email: e.target.value})}
             required
           />
           <input
