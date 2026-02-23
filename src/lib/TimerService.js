@@ -25,7 +25,7 @@ export default class TimerService {
             }
 
             // ALERT (O QUE TU VES NO ECRÃ)
-            alert(`⏰ HORA DA ROTINA: ${alarm.title}`);
+            alert(`⏰ ${alarm.title}`);
           });
         }
       } catch (err) {
