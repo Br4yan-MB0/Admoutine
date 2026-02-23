@@ -42,7 +42,7 @@ export default function Register() {
           <input
             className={styles.inputField}
             type="email"
-            placeholder="Seu melhor E-mail (Para recuperação)"
+            placeholder="E-mail"
             value={formData.email}
             onChange={e => setFormData({...formData, email: e.target.value})}
             required
